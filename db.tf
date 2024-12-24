@@ -4,6 +4,7 @@ module "aws_db_subnet_group" {
     aws = aws.region-master
   }
   subnet_master_1_id = module.subnet_master_1.id
+  subnet_master_2_id =  module.subnet_master_2.id
 }
 module "db_rds" {
   source = "./modules/aws_db_instance"
