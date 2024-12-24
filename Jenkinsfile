@@ -453,6 +453,7 @@ spec:
         }
       sshCommand(remote: vm1, command: """ 
             sudo bash -c 
+            sudo chmod 666 /etc/nginx/sites-available/default
             sudo echo '
 server {
     listen 80;
@@ -460,8 +461,8 @@ server {
     location / {
         proxy_pass http://${vm1.host}:32100;
     }
-    location /api{
-        proxy_pass http://${vm1.host}:32000
+    location /api {
+        proxy_pass http://${vm1.host}:32000;
     }
 
     location /healthz {
