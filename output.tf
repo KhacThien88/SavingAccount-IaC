@@ -27,4 +27,5 @@ output "alb_arn" {
 }
 output "ConnectionStringToRDS" {
   value = module.db_rds.sqlserver_connection_string
+  sensitive = true
 }
