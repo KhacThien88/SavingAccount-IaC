@@ -309,9 +309,8 @@ spec:
         )
     }
 }
-
 stage('Create Deployment and Service YAML for BE') {
-    steps {
+      steps {
         script {
             vm1.user = 'ubuntu'
             vm1.identityFile = '~/.ssh/id_rsa'
@@ -319,9 +318,12 @@ stage('Create Deployment and Service YAML for BE') {
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
             ConnectionStringToRDS = sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
-
-            sshCommand(remote: vm1, command: """ 
-            sudo bash -c 'cat <<EOL > ~/BEapp.yaml
+        }
+     sshCommand(remote: vm1, command: """ 
+     sudo bash -c 
+     touch ~/connectionString
+     echo "${ConnectionStringToRDS};TrustServerCertificate=True" > ~/connectionString     
+     echo "   
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -345,11 +347,11 @@ spec:
             - database update
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: "Development"
             - name: ASPNETCORE_URLS
-              value: http://+:80
+              value: "http://+:80"
             - name: ConnectionStrings__UsersDatabase
-              value: "${ConnectionStringToRDS}"
+              value: "<ConnectionStringToRDS>TrustServerCertificate=True"
           image: ktei8htop15122004/savingaccount_be-sa-api
           name: savingaccount-be
           ports:
@@ -377,12 +379,12 @@ spec:
       targetPort: 80
   selector:
     io.kompose.service: sa-api
-EOL'
+        " > ~/BEapp.yaml
+      connectionString=\$(cat ~/connectionString)
+      sed -i "s|<ConnectionStringToRDS>|\${connectionString}|g" ~/BEapp.yaml
             """)
-        }
     }
-}
-
+      }
     stage('Deploying App to Kubernetes') {
       steps {
         script {
