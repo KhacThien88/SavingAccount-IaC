@@ -310,7 +310,7 @@ spec:
     }
 }
 stage('Create Deployment and Service YAML for BE') {
-      steps {
+    steps {
         script {
             vm1.user = 'ubuntu'
             vm1.identityFile = '~/.ssh/id_rsa'
@@ -318,12 +318,13 @@ stage('Create Deployment and Service YAML for BE') {
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
             ConnectionStringToRDS = sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
-        }
-     sshCommand(remote: vm1, command: """ 
-     sudo bash -c 
-     touch ~/connectionString
-     echo "${ConnectionStringToRDS};TrustServerCertificate=True" > ~/connectionString     
-     echo "   
+
+            sshCommand(remote: vm1, command: """
+            sudo bash -c '
+            echo "${ConnectionStringToRDS}" > ~/connectionString
+            
+            # Tạo file BEapp.yaml
+            cat <<EOL > ~/BEapp.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -379,12 +380,17 @@ spec:
       targetPort: 80
   selector:
     io.kompose.service: sa-api
-        " > ~/BEapp.yaml
-      connectionString=\$(cat ~/connectionString)
-      sed -i "s|<ConnectionStringToRDS>|\${connectionString}|g" ~/BEapp.yaml
+EOL
+
+            # Đọc ConnectionString từ file và thay thế trong BEapp.yaml
+            connectionString=\$(cat ~/connectionString)
+            sed -i "s|<ConnectionStringToRDS>|\$connectionString|g" ~/BEapp.yaml
+            '
             """)
+        }
     }
-      }
+}
+
     stage('Deploying App to Kubernetes') {
       steps {
         script {
