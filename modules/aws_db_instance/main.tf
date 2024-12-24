@@ -3,7 +3,7 @@ resource "aws_db_instance" "sqlserver2019" {
   allocated_storage    = 20
   max_allocated_storage = 100
   engine               = "sqlserver-se"
-  engine_version       = "15.00.4236.7.v1"
+  engine_version       = "15.00.4410.1.v1"
   instance_class       = "db.t3.micro"
   username             = "admin"
   password             = "111111aA@"
