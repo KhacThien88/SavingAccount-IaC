@@ -416,10 +416,11 @@ spec:
         }
         
           sshCommand(remote: vm1, command: """ 
-            sudo bash -c
-            mkdir -p /var/www/html
-            touch /var/www/html/healthz
-            echo "Health Check OK" > /var/www/html/healthz
+            sudo bash -c "
+            sudo mkdir -p /var/www/html
+            sudo touch /var/www/html/healthz
+            sudo echo 'Health Check OK' > /var/www/html/healthz
+            "
             """)
         
       }
@@ -452,7 +453,7 @@ spec:
         }
       sshCommand(remote: vm1, command: """ 
             sudo bash -c 
-            echo '
+            sudo echo '
 server {
     listen 80;
 
