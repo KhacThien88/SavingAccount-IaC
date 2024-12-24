@@ -6,7 +6,7 @@ resource "aws_db_instance" "sqlserver2019" {
   engine_version       = "15.00.4410.1.v1"
   instance_class       = "db.t3.micro"
   username             = "admin"
-  password             = "111111aA@"
+  password             = "SecurePass123!"
   parameter_group_name = "default.sqlserver-se-15.0"
   publicly_accessible  = true
   storage_type = "gp2"
