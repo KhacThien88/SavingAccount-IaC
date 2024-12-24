@@ -2,7 +2,7 @@
 resource "aws_db_instance" "sqlserver2019" {
   allocated_storage    = 20
   max_allocated_storage = 100
-  engine               = "sqlserver-se"
+  engine               = "sqlserver-ex"
   engine_version       = "15.00.4410.1.v1"
   instance_class       = "db.t3.micro"
   username             = "admin"
@@ -16,6 +16,7 @@ resource "aws_db_instance" "sqlserver2019" {
   multi_az             = true
   skip_final_snapshot  = true
   license_model           = "license-included"
+
   tags = {
     Name = "mssql-instance"
   }
