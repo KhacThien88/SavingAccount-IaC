@@ -15,7 +15,7 @@ resource "aws_db_instance" "sqlserver2019" {
   db_subnet_group_name = var.db_subnet_group_name
   multi_az             = true
   skip_final_snapshot  = true
-
+  license_model           = "license-included"
   tags = {
     Name = "mssql-instance"
   }
