@@ -309,7 +309,6 @@ spec:
         )
     }
 }
-def ConnectionStringToRDS = ''
 
 stage('Create Deployment and Service YAML for BE') {
     steps {
