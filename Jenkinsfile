@@ -204,9 +204,8 @@ stage('Install Ansible and playbook') {
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
         sshCommand(remote: vm1, command: """
-            sudo bash -c "
+            sudo bash -c
             if [ ! -f /home/ubuntu/service.yaml ]; then
-                sudo bash -c 
                 set -e  # Exit on any error
                 echo 'Updating package lists...'
                 sudo apt update -y || { echo 'apt update failed!'; exit 1; }
@@ -230,9 +229,8 @@ stage('Install Ansible and playbook') {
                 cd ~/kubespray
                 ansible-playbook -i ~/kubespray/inventory/mycluster/inventory.ini --become --become-user=root cluster.yml || { echo 'ansible-playbook failed!'; exit 1; }
             else 
-              echo "Already running kubernetes"
+                echo "Already running kubernetes"
             fi
-            "
             """)
         
     }
