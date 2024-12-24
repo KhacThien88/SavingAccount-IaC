@@ -246,7 +246,7 @@ stage('Install Ansible and playbook') {
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
      sshCommand(remote: vm1, command: """ 
-     sudo bash -c "
+     sudo bash -c 
      echo '   
 apiVersion: apps/v1
 kind: Deployment
@@ -277,7 +277,6 @@ spec:
             memory: "512Mi"
             cpu: "500m"
           ' > ~/deployment.yaml
-        "
             """)
     }
       }
@@ -293,7 +292,7 @@ spec:
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
         sshCommand(remote: vm1, command: """ 
-    sudo bash -c "
+    sudo bash -c 
     echo '
 apiVersion: v1
 kind: Service
@@ -309,7 +308,6 @@ spec:
       targetPort: 81
       nodePort: 32100
       ' > ~/service.yaml
-    "
       """
         )
     }
@@ -325,7 +323,7 @@ stage('Create Deployment and Service YAML for BE') {
             connectionStringToRDS = sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
 
             sshCommand(remote: vm1, command: """
-            sudo bash -c "
+            sudo bash -c
             echo '${connectionStringToRDS}' > ~/connectionString
             echo '
 apiVersion: apps/v1
@@ -386,7 +384,6 @@ spec:
       targetPort: 80
       nodePort: 32000
 ' > ~/beapp.yaml 
-      "
             """)
         }
     }
@@ -419,11 +416,10 @@ spec:
         }
         
           sshCommand(remote: vm1, command: """ 
-            sudo bash -c "
+            sudo bash -c
             mkdir -p /var/www/html
             touch /var/www/html/healthz
             echo "Health Check OK" > /var/www/html/healthz
-            "
             """)
         
       }
@@ -455,7 +451,7 @@ spec:
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
       sshCommand(remote: vm1, command: """ 
-            sudo bash -c "
+            sudo bash -c 
             echo '
 server {
     listen 80;
@@ -473,7 +469,6 @@ server {
 }
             ' > /etc/nginx/sites-available/default
             sudo systemctl restart nginx
-            "
             """)
     }
     }
