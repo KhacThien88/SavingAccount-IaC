@@ -26,5 +26,5 @@ output "alb_arn" {
   value = module.lb.arn
 }
 output "ConnectionStringToRDS" {
-  
+  value = module.db_rds.sqlserver_connection_string
 }
