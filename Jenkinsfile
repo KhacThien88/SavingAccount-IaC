@@ -321,8 +321,6 @@ stage('Create Deployment and Service YAML for BE') {
         }
      sshCommand(remote: vm1, command: """ 
      sudo bash -c 
-     touch ~/connectionString
-     echo "${ConnectionStringToRDS};TrustServerCertificate=True" > ~/connectionString     
      echo "   
 apiVersion: apps/v1
 kind: Deployment
