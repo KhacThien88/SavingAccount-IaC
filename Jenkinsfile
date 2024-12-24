@@ -401,7 +401,7 @@ spec:
         sshCommand(remote: vm1, command: """ 
             sudo kubectl apply -f ~/deployment.yaml
             sudo kubectl apply -f ~/service.yaml
-            sudo kubectl apply -f ~/BEapp.yaml
+            sudo kubectl apply -f ~/beapp.yaml
             """)
           }
         }
