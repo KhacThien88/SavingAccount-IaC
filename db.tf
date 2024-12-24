@@ -12,5 +12,5 @@ module "db_rds" {
     aws = aws.region-master
   }
   db_subnet_group_name = module.aws_db_subnet_group.name
-  sg_db_rds_id = module.sg
+  sg_db_rds_id = module.sg-db-rds.id
 }
