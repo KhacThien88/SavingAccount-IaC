@@ -204,6 +204,7 @@ stage('Install Ansible and playbook') {
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
         sshCommand(remote: vm1, command: """
+            if [ ! -d ~/.kube/config ]; then
                 sudo bash -c 
                 set -e  # Exit on any error
                 echo 'Updating package lists...'
@@ -227,6 +228,9 @@ stage('Install Ansible and playbook') {
                 echo 'Running kubespray playbook...'
                 cd ~/kubespray
                 ansible-playbook -i ~/kubespray/inventory/mycluster/inventory.ini --become --become-user=root cluster.yml || { echo 'ansible-playbook failed!'; exit 1; }
+            else 
+              echo "Already running kubernetes"
+            fi
             """)
         
     }
@@ -320,7 +324,7 @@ stage('Create Deployment and Service YAML for BE') {
             connectionStringToRDS = sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
 
             sshCommand(remote: vm1, command: """
-            sudo bash -c '
+            sudo bash -c
             echo "${connectionStringToRDS}" > ~/connectionString
             echo "
 apiVersion: apps/v1
