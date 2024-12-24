@@ -129,7 +129,7 @@ pipeline {
         }
         sshCommand(remote: vm1, command: """
                         sudo bash -c 
-                        if [ ! -d ~/kubespray ]; then
+                        if [ ! -f ~/kubespray ]; then
                               echo "Cloning kubespray repository..."
                               sudo apt update
                               sudo apt install -y git python3 python3-pip
@@ -204,7 +204,7 @@ stage('Install Ansible and playbook') {
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
         }
         sshCommand(remote: vm1, command: """
-            if [ ! -d ~/.kube/config ]; then
+            if [ ! -f ~/.kube/config ]; then
                 sudo bash -c 
                 set -e  # Exit on any error
                 echo 'Updating package lists...'
