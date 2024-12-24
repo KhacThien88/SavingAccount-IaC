@@ -1,5 +1,5 @@
 
-resource "aws_db_instance" "mssql" {
+resource "aws_db_instance" "sqlserver2019" {
   allocated_storage    = 20
   max_allocated_storage = 100
   engine               = "sqlserver-se"

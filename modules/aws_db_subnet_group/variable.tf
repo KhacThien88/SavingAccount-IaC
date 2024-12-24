@@ -1,3 +1,3 @@
-variable "subnet_master_1" {
+variable "subnet_master_1_id" {
   type = string
 }
