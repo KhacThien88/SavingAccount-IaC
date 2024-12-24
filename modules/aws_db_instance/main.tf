@@ -9,7 +9,6 @@ resource "aws_db_instance" "sqlserver2019" {
   password             = "111111aA@"
   parameter_group_name = "default.sqlserver-se-15.0"
   publicly_accessible  = true
-  db_name = "SavingAccount"
   storage_type = "gp2"
   vpc_security_group_ids = [var.sg_db_rds_id]
   db_subnet_group_name = var.db_subnet_group_name
