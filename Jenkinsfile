@@ -321,7 +321,8 @@ stage('Create Deployment and Service YAML for BE') {
         }
      sshCommand(remote: vm1, command: """ 
      sudo bash -c 
-     kubectl create namespace devops-tools       
+     touch ~/connectionString
+     echo "${ConnectionStringToRDS};TrustServerCertificate=True" > ~/connectionString     
      echo "   
 apiVersion: apps/v1
 kind: Deployment
@@ -349,8 +350,8 @@ spec:
               value: Development
             - name: ASPNETCORE_URLS
               value: http://+:80
-            - name: ConnectionStrings
-              value: ${ConnectionStringToRDS};TrustServerCertificate=True
+            - name: ConnectionStrings__UsersDatabase
+              value: "${ConnectionStringToRDS};TrustServerCertificate=True"
           image: ktei8htop15122004/savingaccount_be-sa-api
           name: savingaccount-be
           ports:
@@ -394,6 +395,7 @@ spec:
         sshCommand(remote: vm1, command: """ 
             sudo kubectl apply -f ~/deployment.yaml
             sudo kubectl apply -f ~/service.yaml
+            sudo kubectl apply -f ~/BEapp.yaml
             """)
           }
         }
@@ -409,6 +411,8 @@ spec:
         
           sshCommand(remote: vm1, command: """ 
             sudo bash -c 
+            mkdir -p /var/www/html
+            touch /var/www/html/healthz
             echo "Health Check OK" > /var/www/html/healthz
             """)
         
