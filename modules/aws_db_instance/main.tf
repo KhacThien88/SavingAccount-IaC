@@ -13,7 +13,7 @@ resource "aws_db_instance" "sqlserver2019" {
   storage_type = "gp2"
   vpc_security_group_ids = [var.sg_db_rds_id]
   db_subnet_group_name = var.db_subnet_group_name
-  multi_az             = true
+  multi_az             = false
   skip_final_snapshot  = true
   license_model           = "license-included"
 
