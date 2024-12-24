@@ -17,6 +17,13 @@ resource "aws_security_group" "jenkins-sg-worker" {
     cidr_blocks = [var.external_ip]
   }
   ingress {
+    description = "Allow 81 from our public IP"
+    from_port   = 81
+    to_port     = 81
+    protocol    = "tcp"
+    cidr_blocks = [var.external_ip]
+  }
+  ingress {
     description = "Allow 443 from our public IP"
     from_port   = 443
     to_port     = 443
@@ -55,6 +62,20 @@ resource "aws_security_group" "jenkins-sg-worker" {
     description = "Allow 80 from our public IP"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [var.external_ip]
+  }
+  egress {
+    description = "Allow 8080 from our public IP"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = [var.external_ip]
+  }
+  egress {
+    description = "Allow 81 from our public IP"
+    from_port   = 81
+    to_port     = 81
     protocol    = "tcp"
     cidr_blocks = [var.external_ip]
   }
