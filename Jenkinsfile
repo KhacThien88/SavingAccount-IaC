@@ -319,8 +319,9 @@ stage('Create Deployment and Service YAML for BE') {
             vm1.identityFile = '~/.ssh/id_rsa'
             vm1.password = '111111aA@'
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
-            vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
-            connectionStringToRDS = sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
+            vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()        
+            cleanConnectionStringToRDS= sh(script: "terraform output -raw ConnectionStringToRDS", returnStdout: true).trim()
+            connectionStringToRDS = cleanConnectionStringToRDS.replace(':1433', '')
 
             sshCommand(remote: vm1, command: """
             sudo bash -c

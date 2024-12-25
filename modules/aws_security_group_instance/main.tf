@@ -41,9 +41,16 @@ resource "aws_security_group" "jenkins-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description = "Allow anyone on port 8080"
+    description = "Allow anyone on port 32100"
     from_port   = 32100
     to_port     = 32100
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Allow anyone on port 32000"
+    from_port   = 32000
+    to_port     = 32000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -97,7 +104,13 @@ resource "aws_security_group" "jenkins-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  egress {
+    description = "Allow anyone on port 32000"
+    from_port   = 32000
+    to_port     = 32000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
     Name = "jenkins-sg"
   }
