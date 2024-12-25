@@ -460,9 +460,15 @@ server {
 
     location / {
         proxy_pass http://${vm1.host}:32100;
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
     }
     location /api {
         proxy_pass http://${vm1.host}:32000;
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
     }
 
     location /healthz {
