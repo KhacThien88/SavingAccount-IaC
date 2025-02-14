@@ -68,5 +68,5 @@ variable "ami_worker" {
 }
 variable "path_to_file_key" {
   type    = string
-  default = "~/.ssh/id_rsa.pub"
+  default = "/etc/jenkins/id_rsa.pub"
 }
