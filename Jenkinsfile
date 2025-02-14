@@ -18,7 +18,6 @@ def alb_arn = ''
 def ConnectionStringToRDS = ''
 pipeline {
   environment {
-    PROVIDER_TF = credentials('provider-azure')
     dockerimagename = "ktei8htop15122004/savingaccountfe"
     dockerImage = ""
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
