@@ -3,14 +3,14 @@
   tasks:
     - name: Copy SSH private key to remote machine
       copy:
-        src: /etc/jenkins/id_rsa
+        src: /var/lib/jenkins/.ssh/id_rsa
         dest: /root/.ssh/id_rsa
         owner: root
         group: root
         mode: 0600
     - name: Copy SSH private key to remote machine ubuntu
       copy:
-        src: /etc/jenkins/id_rsa
+        src: /var/lib/jenkins/.ssh/id_rsa
         dest: /home/ubuntu/.ssh/id_rsa
         owner: ubuntu
         group: ubuntu
@@ -18,7 +18,7 @@
 
     - name: Copy SSH public key to authorized_keys
       copy:
-        src: /etc/jenkins/id_rsa.pub
+        src: /var/lib/jenkins/.ssh/id_rsa.pub
         dest: /root/.ssh/id_rsa.pub
         owner: root
         group: root
@@ -26,7 +26,7 @@
 
     - name: Copy SSH public key to authorized_keys ubuntu
       copy:
-        src: /etc/jenkins/id_rsa.pub
+        src: /var/lib/jenkins/.ssh/id_rsa.pub
         dest: /home/ubuntu/.ssh/id_rsa.pub
         owner: ubuntu
         group: ubuntu
