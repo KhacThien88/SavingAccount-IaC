@@ -6,6 +6,8 @@ terraform {
     }
   }
   backend "s3" {
+    shared_config_files = [ "~/.aws/config" ]
+    shared_credentials_files = [ "~/.aws/credentials" ]
     region  = "ap-southeast-2"
     profile = "default"
     key     = "terraformstatefile"
