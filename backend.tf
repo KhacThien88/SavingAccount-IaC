@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     region  = "ap-southeast-2"
-    # profile = "default"
+    profile = "default"
     key     = "terraformstatefile"
     bucket  = "terraformstatebackendkt-iac-1"
   }
