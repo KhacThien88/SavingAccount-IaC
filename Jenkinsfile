@@ -52,7 +52,7 @@ pipeline {
     stage('Create Resource Terraform in AWS'){
       steps{
        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-credential', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-          sh 'terraform init -migrate-state'
+          sh 'terraform init'
           sh "terraform plan -out main.tfplan"
           sh "terraform apply main.tfplan"
         }
