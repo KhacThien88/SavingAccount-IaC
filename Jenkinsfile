@@ -267,7 +267,7 @@ spec:
       - name: savingaccountfe
         image: ktei8htop15122004/savingaccountfe:latest
         ports:
-        - containerPort: 81
+        - containerPort: 80
         resources:
           requests:
             memory: "128Mi"
@@ -303,8 +303,8 @@ spec:
     app: react-app
   ports:
     - name: http
-      port: 81
-      targetPort: 81
+      port: 80
+      targetPort: 80
       nodePort: 32100
       ' > ~/service.yaml
       """
