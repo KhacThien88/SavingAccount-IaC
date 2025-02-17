@@ -11,8 +11,13 @@ def vm2=[:]
 vm2.name = 'vm2'
 vm2.allowAnyHosts = true
 
+def vm3=[:]
+vm3.name = 'vm3'
+vm3.allowAnyHosts = true
+
 def private_ip_1 = ''
 def private_ip_2 = ''
+def private_ip_3 = ''
 def cert_arn = ''
 def alb_arn = ''
 def ConnectionStringToRDS = ''
@@ -63,10 +68,11 @@ pipeline {
                 script {
                     def publicIpVm1 = sh(script: 'terraform output -raw public_ip_vm_1', returnStdout: true).trim()
                     def publicIpVm2 = sh(script: 'terraform output -raw public_ip_vm_2', returnStdout: true).trim()
-
+                    def publicIpVm3 = sh(script: 'terraform output -raw public_ip_vm_2', returnStdout: true).trim()
 
                     echo "Public IP of VM 1: ${publicIpVm1}"
                     echo "Public IP of VM 2: ${publicIpVm2}"
+                    echo "Public IP of VM 2: ${publicIpVm3}"
                 }
             }
         }
@@ -123,8 +129,10 @@ pipeline {
             vm1.password = '111111aA@'
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
+            vm3.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
             private_ip_1 = sh(script: "terraform output -raw private_ip_address_vm_1", returnStdout: true).trim()
             private_ip_2 = sh(script: "terraform output -raw private_ip_address_vm_2", returnStdout: true).trim()
+            private_ip_3 = sh(script: "terraform output -raw private_ip_address_vm_3", returnStdout: true).trim()
         }
         sshCommand(remote: vm1, command: """
                         sudo bash -c 
@@ -155,6 +163,7 @@ kube_control_plane
 
 [kube_node]
 node2 ansible_host=${vm2.host}  ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_become=true ansible_become_user=root ip=${private_ip_2}
+node3 ansible_host=${vm3.host}  ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_become=true ansible_become_user=root ip=${private_ip_3}
 # node4 ansible_host=95.54.0.15  # ip=10.3.0.4
 # node5 ansible_host=95.54.0.16  # ip=10.3.0.5
 # node6 ansible_host=95.54.0.17  # ip=10.3.0.6
@@ -183,6 +192,7 @@ kube_control_plane
 
 [kube_node]
 node2 ansible_host=${vm2.host}  ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_become=true ansible_become_user=root ip=${private_ip_2}
+node3 ansible_host=${vm3.host}  ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_become=true ansible_become_user=root ip=${private_ip_3}
 # node4 ansible_host=95.54.0.15  # ip=10.3.0.4
 # node5 ansible_host=95.54.0.16  # ip=10.3.0.5
 # node6 ansible_host=95.54.0.17  # ip=10.3.0.6
@@ -243,6 +253,7 @@ stage('Install Ansible and playbook') {
             vm1.password = '111111aA@'
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
+            vm3.host = sh(script: "terraform output -raw public_ip_vm_3", returnStdout: true).trim()
         }
      sshCommand(remote: vm1, command: """ 
      sudo bash -c 

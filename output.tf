@@ -11,13 +11,19 @@ output "public_ip_vm_1" {
   value = module.master-control-plane.public_ip
 }
 output "public_ip_vm_2" {
-  value = module.worker.public_ip
+  value = module.worker-1.public_ip
+}
+output "public_ip_vm_3" {
+  value = module.worker-2.public_ip
 }
 output "private_ip_address_vm_1" {
   value = module.master-control-plane.private_ip
 }
 output "private_ip_address_vm_2" {
-  value = module.worker.private_ip
+  value = module.worker-1.private_ip
+}
+output "private_ip_address_vm_3" {
+  value = module.worker-2.private_ip
 }
 output "certificate_arn" {
   value = module.route53-acm.arn

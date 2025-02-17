@@ -45,7 +45,7 @@ module "master-control-plane" {
   region        = var.region-master
   profile       = var.profile
 }
-module "worker" {
+module "worker-1" {
   source = "./modules/aws_instance"
   providers = {
     aws = aws.region-worker
@@ -60,5 +60,45 @@ module "worker" {
   ansible_playbook_path    = "ansible_templates/install_worker.yaml"
   region        = var.region-worker
   profile       = var.profile
-  
 }
+module "worker-2" {
+  source = "./modules/aws_instance"
+  providers = {
+    aws = aws.region-worker
+  }
+  ami           = module.WorkerAmi.value
+  instance-type = var.instance-type
+  key_name      = module.worker-key.key_name
+  subnet_id_1   = module.subnet_worker_1.id
+  sg_id         = module.sg-instances-worker.id
+  tag           = "worker_tf_2"
+  depends_on    = [module.set-worker-default-router-associate , module.subnet_worker_1 , module.sg-instances-worker]
+  ansible_playbook_path    = "ansible_templates/install_worker.yaml"
+  region        = var.region-worker
+  profile       = var.profile
+}
+module "eip1"{
+  source = "./modules/aws_eip"
+}
+module "eip2"{
+  source = "./modules/aws_eip"
+}
+module "eip3"{
+  source = "./modules/aws_eip"
+}
+module "assoc_eip_1"{
+  source = "./modules/aws_eip_association"
+  id_eip = module.eip1.elaticIP_id
+  id_instance = module.master-control-plane.id
+}
+module "assoc_eip_2"{
+  source = "./modules/aws_eip_association"
+  id_eip = module.eip2.elaticIP_id
+  id_instance = module.worker-1.id
+}
+module "assoc_eip_3"{
+  source = "./modules/aws_eip_association"
+  id_eip = module.eip3.elaticIP_id
+  id_instance = module.worker-2.id
+}
+
