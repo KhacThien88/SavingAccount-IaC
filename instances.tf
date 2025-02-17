@@ -79,24 +79,42 @@ module "worker-2" {
 }
 module "eip1"{
   source = "./modules/aws_eip"
+  providers = {
+    aws = aws.region-master
+  }
 }
 module "eip2"{
   source = "./modules/aws_eip"
+  providers = {
+    aws = aws.region-worker
+  }
 }
 module "eip3"{
   source = "./modules/aws_eip"
+  providers = {
+    aws = aws.region-worker
+  }
 }
 module "assoc_eip_1"{
+   providers = {
+    aws = aws.region-master
+  }
   source = "./modules/aws_eip_association"
   id_eip = module.eip1.elaticIP_id
   id_instance = module.master-control-plane.id
 }
 module "assoc_eip_2"{
+  providers = {
+    aws = aws.region-worker
+  }
   source = "./modules/aws_eip_association"
   id_eip = module.eip2.elaticIP_id
   id_instance = module.worker-1.id
 }
 module "assoc_eip_3"{
+  providers = {
+    aws = aws.region-worker
+  }
   source = "./modules/aws_eip_association"
   id_eip = module.eip3.elaticIP_id
   id_instance = module.worker-2.id
