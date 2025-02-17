@@ -68,11 +68,11 @@ pipeline {
                 script {
                     def publicIpVm1 = sh(script: 'terraform output -raw public_ip_vm_1', returnStdout: true).trim()
                     def publicIpVm2 = sh(script: 'terraform output -raw public_ip_vm_2', returnStdout: true).trim()
-                    def publicIpVm3 = sh(script: 'terraform output -raw public_ip_vm_2', returnStdout: true).trim()
+                    def publicIpVm3 = sh(script: 'terraform output -raw public_ip_vm_3', returnStdout: true).trim()
 
                     echo "Public IP of VM 1: ${publicIpVm1}"
                     echo "Public IP of VM 2: ${publicIpVm2}"
-                    echo "Public IP of VM 2: ${publicIpVm3}"
+                    echo "Public IP of VM 3: ${publicIpVm3}"
                 }
             }
         }
@@ -129,7 +129,7 @@ pipeline {
             vm1.password = '111111aA@'
             vm1.host = sh(script: "terraform output -raw public_ip_vm_1", returnStdout: true).trim()
             vm2.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
-            vm3.host = sh(script: "terraform output -raw public_ip_vm_2", returnStdout: true).trim()
+            vm3.host = sh(script: "terraform output -raw public_ip_vm_3", returnStdout: true).trim()
             private_ip_1 = sh(script: "terraform output -raw private_ip_address_vm_1", returnStdout: true).trim()
             private_ip_2 = sh(script: "terraform output -raw private_ip_address_vm_2", returnStdout: true).trim()
             private_ip_3 = sh(script: "terraform output -raw private_ip_address_vm_3", returnStdout: true).trim()
