@@ -235,7 +235,7 @@ stage('Install Ansible and playbook') {
                 ansible --version || { echo 'ansible --version failed!'; exit 1; }
 
                 echo 'Running kubespray playbook...'
-                cd ~/kubespray
+                sed -i 's/kube_version: v1.32.0/kube_version: v1.30.0/g' kubespray/inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
                 ansible-playbook -i ~/kubespray/inventory/mycluster/inventory.ini --become --become-user=root cluster.yml || { echo 'ansible-playbook failed!'; exit 1; }
             else 
                 echo "Already running kubernetes"
@@ -314,8 +314,8 @@ spec:
     app: react-app
   ports:
     - name: http
-      port: 80
-      targetPort: 80
+      port: 81
+      targetPort: 81
       nodePort: 32100
       ' > ~/service.yaml
       """
