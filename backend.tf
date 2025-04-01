@@ -8,7 +8,7 @@ terraform {
   backend "s3" {
     shared_config_files = [ "~/.aws/config" ]
     shared_credentials_files = [ "~/.aws/credentials" ]
-    region  = "ap-northeast-2"
+    region  = "ap-southeast-2"
     profile = "default"
     key     = "terraformstatefile"
     bucket  = "terraformstatebackendkt-iac-1"
