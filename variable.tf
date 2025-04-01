@@ -4,11 +4,11 @@ variable "profile" {
 }
 variable "region-master" {
   type    = string
-  default = "ap-southeast-2"
+  default = "ap-northeast-2"
 }
 variable "region-worker" {
   type    = string
-  default = "ap-southeast-1"
+  default = "ap-northeast-1"
 }
 variable "external_ip" {
   type    = string
