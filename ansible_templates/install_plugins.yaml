@@ -4,7 +4,7 @@
     - name: Copy SSH private key to remote machine
       copy:
         src: /var/lib/jenkins/.aws
-        dest: /root/.ssh/id_rsa
+        dest: /root
         owner: root
         group: root
         mode: 0600
