@@ -2,7 +2,7 @@
 resource "aws_instance" "jenkins-master" {
   ami                         = var.ami
   instance_type               = var.instance-type
-  # key_name                    = var.key_name
+  key_name                    = var.key_name
   associate_public_ip_address = true
   vpc_security_group_ids      = [var.sg_id]
   subnet_id                   = var.subnet_id_1
